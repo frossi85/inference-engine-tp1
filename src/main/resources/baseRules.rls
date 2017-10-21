@@ -1,0 +1,3 @@
+IF f,b THEN z
+IF c,d THEN f
+IF a THEN d
