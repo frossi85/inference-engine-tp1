@@ -8,7 +8,8 @@ case class ToothTest(
                       electricalStimulation: ElectricalStimulation,
                       percussionStimulation: PercussionStimulation,
                       pulpState: PulpState,
-                      patientAge: PatientAge
+                      patientAge: PatientAge,
+                      expectedDiagnosis: String
                     ) {
 
   def toUniverse: List[String] = {
@@ -106,8 +107,7 @@ object PatientAge {
   val oldMan = PatientAge("oldMan")
 }
 
-
-case class Diagnosis(details: String)
+case class Diagnosis(details: String, isHumanDiagnosisCorrect: Option[Boolean] = None)
 
 object Diagnosis {
   val pulpNecrosis = Diagnosis("pulpNecrosis")
@@ -130,5 +130,20 @@ object Diagnosis {
     unknown -> Diagnosis("Desconocido o sin problemas")
   )
 
+  private val spanishToEnglishMap = Map(
+    "Necrosis Pulpar" -> "pulpNecrosis",
+    "Hiperemia Pulpar" -> "pulpHyperemia",
+    "Pulpitis Hiperplásica" -> "hyperplasticPulpitis",
+    "Atrofia Pulpar" -> "pulpAtrophy",
+    "Pulpitis Aguda Serosa" -> "pulpitisSerosa",
+    "Pulpitis Aguda Purulenta" -> "pulpitisSerosa",
+    "Pulpitis Infiltrativa" -> "infiltrativePulpitis",
+    "Desconocido o sin problemas" -> "unknown"
+  )
+
   def translate(diagnosis: Diagnosis): Diagnosis = translator(diagnosis)
+
+  def toEnglish(diagnosis: String): String = {
+    spanishToEnglishMap.get(diagnosis).getOrElse(diagnosis)
+  }
 }

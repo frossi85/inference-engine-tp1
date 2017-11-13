@@ -54,33 +54,22 @@ class HomeController @Inject()(cc: ControllerComponents, environment: Environmen
     environment.resource(file).get.getPath.replaceAll("%20", " ")
   }
 
-  def forwardTest() = Action { implicit request: Request[AnyContent] =>
+  def diagnose() = Action { implicit request: Request[AnyContent] =>
     val toothTest = request.body.asJson.get.as[ToothTest]
     val universe = toothTest.toUniverse
     val newUniverse = ruleEngine.infer(universe)
+    val diagnosis = Diagnosis.translate(Diagnosis(newUniverse.diff(universe)(0).replace("Diagnosis.", "")))
 
-    println(newUniverse.diff(universe))
-
-    val diagnosis = Diagnosis(newUniverse.diff(universe)(0).replace("Diagnosis.", ""))
-
-    Ok(Json.toJson(Diagnosis.translate(diagnosis)))
-  }
-
-  def backwardTest(universe: List[String], statement: String): Unit = {
-    println("")
-    println("")
-    println("  ******* Backward Test ******")
-    println("")
-    val originalUniverse = universe
-    println("Universe: " + universe)
-
-    if(ruleEngine.prove(statement, universe)) {
-      println(s"${statement} proved given ${originalUniverse}")
+    val finalDiagnosis = if(!toothTest.expectedDiagnosis.isEmpty) {
+      val proveResult = ruleEngine.prove(s"Diagnosis.${Diagnosis.toEnglish(toothTest.expectedDiagnosis)}", universe)
+      diagnosis.copy(isHumanDiagnosisCorrect = Some(proveResult))
     } else {
-      println(s"can't be proved ${statement} given ${originalUniverse}")
+      diagnosis
     }
-  }
 
+    Ok(Json.toJson(finalDiagnosis))
+  }
+  
   /**
    * Create an Action to render an HTML page.
    *

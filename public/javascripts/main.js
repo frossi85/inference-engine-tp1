@@ -53,11 +53,13 @@ $(function() {
           electricalStimulation: { name: self.electricalStimulation() },
           percussionStimulation: { name: self.percussionStimulation() },
           pulpState: { name: self.selectedPulpState().value },
-          patientAge: { name: self.patientAge() }
+          patientAge: { name: self.patientAge() },
+          expectedDiagnosis: self.expectedDiagnosis().trim()
         };
 
         $.postJSON("http://localhost:9000", formData, function(diagnosis) {
-          self.diagnosisResult(diagnosis.details)
+          self.diagnosisResult(diagnosis.details);
+          self.isHumanDiagnosisCorrect(diagnosis.isHumanDiagnosisCorrect);
         });
 
         self.showWelcome(false);
@@ -93,6 +95,12 @@ $(function() {
       self.kindOfPains = ko.observableArray([]);
       self.patientAge = ko.observable("young");
 
+      self.expectedDiagnosis = ko.observable("");
+      self.isHumanDiagnosisCorrect = ko.observable(false);
+
+      self.hasExpectedDiagnosis = ko.computed(function() {
+        return this.expectedDiagnosis().trim() != '';
+      }, this);
 
     };
 

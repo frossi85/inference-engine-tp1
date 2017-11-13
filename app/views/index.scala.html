@@ -160,6 +160,11 @@
                 <input type="radio" name="patientAge" value="oldMan" data-bind="checked: patientAge">Anciano</label>
             </div>
           </div>
+          <div class="form-group">
+            <label class="control-label">Diagnostico esperado</label>
+            <input type="text" class="form-control" name="expectedDiagnosis" data-bind="textInput: expectedDiagnosis" placeholder="Escribir diagnostico esperado">
+          </div>
+
           <button type="submit" class="btn btn-default" data-bind="click: getDiagnosis">Diagnosticar</button>
         </form >
       </div>
@@ -168,6 +173,12 @@
       <div class="jumbotron" style="background-color: rgba(238, 238, 238, 0.34);">
         <h1>Diagnostico</h1>
         <p><span data-bind="text: diagnosisResult"></span></p>
+        <div data-bind="if: hasExpectedDiagnosis">
+          <p>
+            <span data-bind="if: isHumanDiagnosisCorrect">El diagnostico esperado es el correcto</span>
+            <span data-bind="ifnot: isHumanDiagnosisCorrect">El diagnostico esperado es incorrecto</span>
+          </p>
+        </div>
       </div>
     </div>
   </div>
