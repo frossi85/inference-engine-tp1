@@ -20,8 +20,6 @@ $(function() {
         this.value = value;
     };
 
-
-
     function MyViewModel() {
       var self = this;
 
@@ -35,22 +33,11 @@ $(function() {
       };
 
       self.newDiagnostic = function() {
-
-     /*
-      self.selectedColoration()
-        self.kindOfPains()
-        self.coldStimulus()
-        self.heatStimulus()
-        self.electricalStimulation()
-        self.percussionStimulation()
-        self.selectedPulpState()
-        self.patientAge
-
-        return formData;*/
         self.showWelcome(false);
         self.showDiagnosticForm(true);
         self.showDiagnosis(false);
       };
+
       self.getDiagnosis = function() {
         var kindOfPains = [];
 
@@ -69,7 +56,7 @@ $(function() {
           patientAge: { name: self.patientAge() }
         };
 
-        $.postJSON("http://localhost:8080", formData, function(diagnosis) {
+        $.postJSON("http://localhost:9000", formData, function(diagnosis) {
           self.diagnosisResult(diagnosis.details)
         });
 

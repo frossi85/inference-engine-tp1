@@ -1,10 +1,8 @@
 package models
 
-import java.util.{List => JList}
-
 case class ToothTest(
                       coloration: Coloration,
-                      kindOfPains: JList[KindOfPain],
+                      kindOfPains: List[KindOfPain],
                       coldStimulus: ColdStimulus,
                       heatStimulus: HeatStimulus,
                       electricalStimulation: ElectricalStimulation,
@@ -14,22 +12,27 @@ case class ToothTest(
                     ) {
 
   def toUniverse: List[String] = {
-    Nil
+    List(
+      coloration.toUniverse,
+      coldStimulus.toUniverse,
+      heatStimulus.toUniverse,
+      electricalStimulation.toUniverse,
+      percussionStimulation.toUniverse,
+      pulpState.toUniverse,
+      patientAge.toUniverse
+    ) ++ kindOfPains.map(_.toUniverse)
   }
 }
 
-case class SerializableToothTest(
-                                  coloration: Coloration,
-                                  kindOfPains: List[KindOfPain],
-                                  coldStimulus: ColdStimulus,
-                                  heatStimulus: HeatStimulus,
-                                  electricalStimulation: ElectricalStimulation,
-                                  percussionStimulation: PercussionStimulation,
-                                  pulpState: PulpState,
-                                  patientAge: PatientAge
-                                )
+trait ToUniverse {
+  val name: String
 
-case class Coloration(name:String)
+  def toUniverse: String = {
+    s"${this.getClass.getSimpleName}.$name"
+  }
+}
+
+case class Coloration(name:String) extends ToUniverse
 
 object Coloration {
   val gray = Coloration("gray")
@@ -40,9 +43,7 @@ object Coloration {
 }
 
 
-
-
-case class KindOfPain(name:String)
+case class KindOfPain(name:String) extends ToUniverse
 
 object KindOfPain {
   val intense = KindOfPain("intense")
@@ -57,14 +58,14 @@ object KindOfPain {
 
 
 
-case class ColdStimulus(name:String)
+case class ColdStimulus(name:String) extends ToUniverse
 
 object ColdStimulus {
   val positive = ColdStimulus("positive")
   val negative = ColdStimulus("negative")
 }
 
-case class HeatStimulus(name:String)
+case class HeatStimulus(name:String) extends ToUniverse
 
 object HeatStimulus {
   val positive = HeatStimulus("positive")
@@ -72,14 +73,14 @@ object HeatStimulus {
 }
 
 
-case class ElectricalStimulation(name:String)
+case class ElectricalStimulation(name:String) extends ToUniverse
 
 object ElectricalStimulation {
   val positive = ElectricalStimulation("positive")
   val negative = ElectricalStimulation("negative")
 }
 
-case class PercussionStimulation(name:String)
+case class PercussionStimulation(name:String) extends ToUniverse
 
 object PercussionStimulation {
   val positive = PercussionStimulation("positive")
@@ -87,7 +88,7 @@ object PercussionStimulation {
 }
 
 
-case class PulpState(name:String)
+case class PulpState(name:String) extends ToUniverse
 
 object PulpState {
   val shattered = PulpState("shattered")
@@ -98,7 +99,7 @@ object PulpState {
 }
 
 
-case class PatientAge(name:String)
+case class PatientAge(name:String) extends ToUniverse
 
 object PatientAge {
   val young = PatientAge("young")

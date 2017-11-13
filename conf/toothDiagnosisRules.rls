@@ -1,5 +1,5 @@
-IF Coloration.brown,KindOfPain.intense,KindOfPain.acute,KindOfPain.located THEN Diagnosis.pulpNecrosis
-IF Coloration.gray,KindOfPain.intense,KindOfPain.acute,KindOfPain.located THEN Diagnosis.pulpNecrosis
+IF Coloration.brown,KindOfPain.intense,KindOfPain.acute,KindOfPain.located,ColdStimulus.negative,HeatStimulus.negative,ElectricalStimulation.negative,PercussionStimulation.positive,PulpState.shattered THEN Diagnosis.pulpNecrosis
+IF Coloration.gray,KindOfPain.intense,KindOfPain.acute,KindOfPain.located,ColdStimulus.negative,HeatStimulus.negative,ElectricalStimulation.negative,PercussionStimulation.positive,PulpState.shattered THEN Diagnosis.pulpNecrosis
 IF Coloration.normal,KindOfPain.intense,KindOfPain.located,ColdStimulus.positive,HeatStimulus.positive,ElectricalStimulation.positive,PercussionStimulation.negative,PulpState.intact THEN Diagnosis.pulpHyperemia
 IF Coloration.reddish,KindOfPain.acute,KindOfPain.located,ColdStimulus.positive,HeatStimulus.negative,ElectricalStimulation.negative,PercussionStimulation.positive,PulpState.hypertrophied,PatientAge.young THEN Diagnosis.hyperplasticPulpitis
 IF Coloration.yellowish,KindOfPain.noPain,ColdStimulus.negative,HeatStimulus.negative,ElectricalStimulation.negative,PercussionStimulation.negative,PulpState.atrophied,PatientAge.oldMan THEN Diagnosis.pulpAtrophy
