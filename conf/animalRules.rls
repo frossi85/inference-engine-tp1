@@ -1,0 +1,4 @@
+IF croaks,eatsFlies THEN frog
+IF chirps,sings THEN canary
+IF frog THEN green
+IF canary THEN yellow

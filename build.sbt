@@ -1,12 +1,17 @@
 name := """inference-engine"""
+organization := "com.inference.engine"
 
-version := "1.0"
+version := "1.0-SNAPSHOT"
 
-scalaVersion := "2.11.7"
+lazy val root = (project in file(".")).enablePlugins(PlayScala)
 
-// Change this to another test framework if you prefer
-libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.4" % "test"
+scalaVersion := "2.12.3"
 
-// Uncomment to use Akka
-//libraryDependencies += "com.typesafe.akka" %% "akka-actor" % "2.3.11"
+libraryDependencies += guice
+libraryDependencies += "org.scalatestplus.play" %% "scalatestplus-play" % "3.1.2" % Test
 
+// Adds additional packages into Twirl
+//TwirlKeys.templateImports += "com.inference.engine.controllers._"
+
+// Adds additional packages into conf/routes
+// play.sbt.routes.RoutesKeys.routesImport += "com.inference.engine.binders._"
